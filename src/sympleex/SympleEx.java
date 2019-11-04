@@ -1,26 +1,39 @@
 package sympleex;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.IOException;
 
 public class SympleEx {
 
-    public static void main(String[] args) {
-        long startTime = System.nanoTime();
-        long estimatedTime = System.nanoTime() - startTime;
+    public static void main(String[] args) throws Exception {
+//        long startTime = System.nanoTime();
+//        //long estimatedTime = System.nanoTime() - startTime;
+//        long estimatedTime = System.nanoTime() * 60 * 10 ^ 9;
         Hello myHello = new Hello();
-        while (estimatedTime != 0) {
-            System.out.println("asdf");
 
-            myHello.start();
-            try {
-                Thread.sleep(6000);
-            } catch (InterruptedException ex) {
-                System.out.println("я сплю");
-            }
+        myHello.start();
+        for (int i = 0; i < 6; i++) {
+            Thread.sleep(6000);
             System.out.print("World ");
+
         }
-        System.out.println(System.nanoTime());
+        if (myHello.isAlive()) {
+            try {
+                myHello.join();	
+            } catch (InterruptedException e) {
+            }
+
+            System.out.println("Hello");
+        } else {
+            System.out.println("World");
+        }
+        System.out.println("Finish");
+
+        try {
+            System.in.read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        myHello.interrupt();
     }
 }
 
@@ -28,7 +41,15 @@ class Hello extends Thread {
 
     @Override
     public void run() {
-        System.out.print("Hello ");
+        while (true) {
+            System.out.print("Hello ");
+            try {
+                Thread.sleep(6000);
+            } catch (InterruptedException ex) {
+                break;
+
+            }
+        }
 
     }
 }
