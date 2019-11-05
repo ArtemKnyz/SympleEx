@@ -1,26 +1,27 @@
 package sympleex;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 public class SympleEx {
 
     public static void main(String[] args) {
         long startTime = System.nanoTime();
-        long estimatedTime = System.nanoTime() - startTime;
-        Hello myHello = new Hello();
-        while (estimatedTime != 0) {
-            System.out.println("asdf");
+        long estimatedTime = 0;
+        double elapsedTimeInSecond = 0;
 
-            myHello.start();
+        while ((elapsedTimeInSecond) < 60) {
+            new Hello().start();
+            new World().start();
+
             try {
-                Thread.sleep(6000);
+                Thread.sleep(10000);
+                estimatedTime = System.nanoTime() - startTime;
+                elapsedTimeInSecond = (double) estimatedTime / 1_000_000_000;
+                System.out.print(elapsedTimeInSecond + " sec");
+                System.out.print("\r\n");
+
             } catch (InterruptedException ex) {
-                System.out.println("я сплю");
+                ex.printStackTrace();
             }
-            System.out.print("World ");
         }
-        System.out.println(System.nanoTime());
     }
 }
 
@@ -29,6 +30,13 @@ class Hello extends Thread {
     @Override
     public void run() {
         System.out.print("Hello ");
+    }
+}
 
+class World extends Thread {
+
+    @Override
+    public void run() {
+        System.out.print("World ");
     }
 }
